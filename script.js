@@ -33,12 +33,40 @@ function createCard(taskInfo) {
   // Adicionando icone ao botão
   button.innerHTML = '<i class="fa fa-trash" aria-hidden="true"></i>';
 
+  //Removendo tarefas 
+  button.addEventListener('click', function (event){
+    let indexValue = tasks.indexOf(taskInfo);
+    tasks.splice(indexValue, 1);
+    renderElements(tasks);
+  })
+  
+  //Prioridade das tarefas
+  if(taskInfo.tipo === 'Urgente'){
+    span.classList.add('span-urgent');
+  }else if(taskInfo.tipo === 'Prioritário'){
+    span.classList.add('span-priority');
+  }else if(taskInfo.tipo === 'Normal'){
+    span.classList.add('span-normal');
+  }
+
   /// Adicionando a div e o botão de deletar ao list item
   li.appendChild(div);
   li.appendChild(button);
 
   return li;
 }
+
+  //Inserindo uma nova task com evento de clique 
+  let inputForSubmit = document.getElementById('mainForm');
+  inputForSubmit.addEventListener('submit', function (event){
+    let newTask = {};
+    newTask.titulo = document.getElementById('input_title').value;
+    newTask.tipo = document.getElementById('input_priority').value;
+    
+    tasks.push(newTask);
+    renderElements(tasks);
+    event.preventDefault();
+  })
 
 function renderElements(taskList) {
   const htmlList = document.querySelector(".tasks");
@@ -61,5 +89,4 @@ function renderElements(taskList) {
   }
 
 }
-
 renderElements(tasks);
